@@ -14,18 +14,18 @@ sealed trait FormatHandler {
   def validFormat: String
 
   def process(file: File): Future[Unit] = Future {
-    if (isValidFormat(file.getName)) logger.debug(s"Working on ${file.getName} file")
+    if (isValidFormat(file.getName)) logger.info(s"Working on ${file.getName} file")
   }
 
   def isValidFormat(fileName: String): Boolean = fileName.endsWith("." + validFormat)
 }
 
 case object XmlFormatHandler extends FormatHandler {
-  override def validFormat: String = ".xml"
+  override def validFormat: String = "xml"
 }
 
 case object JsonFormatHandler extends FormatHandler {
-  override def validFormat: String = ".json"
+  override def validFormat: String = "json"
 }
 
 case object DefaultFormatHandler extends FormatHandler {
