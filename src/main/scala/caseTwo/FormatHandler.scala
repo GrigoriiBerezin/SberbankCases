@@ -1,6 +1,7 @@
 package caseTwo
 
 import java.io.File
+import java.nio.file.{Files, Paths}
 
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
@@ -14,7 +15,10 @@ sealed trait FormatHandler {
   def validFormat: String
 
   def process(file: File): Future[Unit] = Future {
-    if (isValidFormat(file.getName)) logger.info(s"Working on ${file.getName} file")
+    if (isValidFormat(file.getName)) {
+      logger.info(s"Working on ${file.getName} file")
+      logger.info(s"${file.getName} has ${Files.lines(file.toPath).count()} lines")
+    }
   }
 
   def isValidFormat(fileName: String): Boolean = fileName.endsWith("." + validFormat)
