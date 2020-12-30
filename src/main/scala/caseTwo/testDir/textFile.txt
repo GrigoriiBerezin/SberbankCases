@@ -1,0 +1,3 @@
+I want do delete this file
+But I mocked this method from implementation
+:(
