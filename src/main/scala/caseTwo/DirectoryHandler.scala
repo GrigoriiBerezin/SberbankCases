@@ -10,7 +10,7 @@ class DirectoryHandler extends Actor with ActorLogging {
 
   override def receive: Receive = {
     case file: File =>
-      findAndChangeBehaviour(file, List.empty[File])
+      findAndChangeBehaviour(file, List(file))
   }
 
   def ignoreCheckedFiles(file: File, checkedFiles: List[File]): Receive = {
