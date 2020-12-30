@@ -1,7 +1,7 @@
 package caseTwo
 
 import java.io.File
-import java.nio.file.{Files, Paths}
+import java.nio.file.Files
 
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-sealed trait FormatHandler {
+trait Formatter {
   protected def logger: Logger = Logger(LoggerFactory.getLogger(this.getClass))
 
   def validFormat: String
@@ -24,22 +24,20 @@ sealed trait FormatHandler {
   def isValidFormat(fileName: String): Boolean = fileName.endsWith("." + validFormat)
 }
 
-case object XmlFormatHandler extends FormatHandler {
+case object XmlFormatter extends Formatter {
   override def validFormat: String = "xml"
 }
 
-case object JsonFormatHandler extends FormatHandler {
+case object JsonFormatter extends Formatter {
   override def validFormat: String = "json"
 }
 
-case object DefaultFormatHandler extends FormatHandler {
+case object DefaultFormatter extends Formatter {
+  override def validFormat: String = ""
+
   override def process(file: File): Future[Unit] = Future {
-//    if (file.delete()) logger.debug(s"File ${file.getName} was deleted successfully")
-//    else logger.error(s"Failed to delete ${file.getName}")
     logger.error(s"Failed to delete ${file.getName}")
   }
 
-  override def validFormat: String = ""
-
-  override def isValidFormat(fileName: String): Boolean = false
+  override def isValidFormat(fileName: String): Boolean = true
 }
